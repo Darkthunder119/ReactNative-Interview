@@ -5,8 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen, HomeScreen, RegistrationScreen } from "./src/screens";
 import { decode, encode } from "base-64";
 import { firebase } from "./src/firebase/config";
-import { View , ActivityIndicator} from "react-native";
-import {AsyncStorage} from "@react-native-community/async-storage";
+import { View, ActivityIndicator } from "react-native";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -27,30 +26,32 @@ export default function App() {
     setIsSignedOut(true);
     setUser(null);
   };
-  console.log("initial", loading, isSignedOut, user);
   useEffect(() => {
     firebase.auth().onAuthStateChanged((cred) => {
       if (cred) {
         setLoading(false);
-        setUser(cred.email);
-      } 
-      else setLoading(false);
+        setUser(cred);
+      } else setLoading(false);
     });
   }, []);
 
-  if (loading) {	
-    return (	
-      <View>
-        <ActivityIndicator size="large" color="#788eec"/>
-      </View>	
-    )	
+  if (loading) {
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#788eec"
+        style={{ alignItems: "center", justifyContent: "center" }}
+      />
+    );
   }
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
           <Stack.Screen name="Home">
-            {(props) => <HomeScreen {...props} extraData={user} signOut={signOut}/>}
+            {(props) => (
+              <HomeScreen {...props} extraData={user} signOut={signOut} />
+            )}
           </Stack.Screen>
         ) : (
           <>

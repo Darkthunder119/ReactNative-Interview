@@ -49,7 +49,7 @@ export default function HomeScreen({ extraData, signOut }) {
         )}
       </Tab.Screen>
       <Tab.Screen name="Explore">
-        {(props) => <Explore {...props} extraData={extraData} apiData={apiData}/>}
+        {(props) => <Explore {...props} apiData={apiData}/>}
       </Tab.Screen>
       <Tab.Screen name="Post Item">
         {(props) => <PostItem {...props} extraData={extraData} />}

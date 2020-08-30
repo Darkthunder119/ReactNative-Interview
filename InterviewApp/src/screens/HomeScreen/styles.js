@@ -5,15 +5,20 @@ export default StyleSheet.create({
         flex: 1,
         alignItems: 'center'
     },
-    input: {
-        height: 48,
-        borderRadius: 5,
-        overflow: 'hidden',
-        backgroundColor: 'white',
-        marginTop: 10,
-        marginBottom: 10,
+    button: {
+        backgroundColor: '#788eec',
         marginLeft: 30,
         marginRight: 30,
-        paddingLeft: 16
+        marginTop: 100,
+        height: 48,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: 'center'
+    },
+    profileText: {
+        marginBottom:30,
+        marginTop:30,
+        fontStyle: "italic",
+        fontSize: 20
     }
 })

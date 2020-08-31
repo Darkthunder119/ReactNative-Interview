@@ -4,18 +4,11 @@ import styles from "../../screens/HomeScreen/styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { firebase } from "../../firebase/config";
 
-export default function Profile({ extraData, signOut }) {
+export default function Profile({ extraData, signOut, emailVerificationFirebase }) {
   const user = firebase.auth().currentUser;
   const [userEmail, setUserEmail] = useState(extraData.emailVerified);
   const [loading, setLoading] = useState(true);
-  const emailVerificationFirebase = () => {
-    user
-      .sendEmailVerification()
-      .then((res) => {
-        alert("Check your email!");
-      })
-      .catch((err) => alert(err));
-  };
+
   useEffect(() => {
     if (user.emailVerified) {
       setLoading(false);

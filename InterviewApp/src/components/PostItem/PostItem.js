@@ -7,7 +7,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import {firebase} from "../../firebase/config"
 import { set } from "react-native-reanimated";
 
-export default function PostItem({validateEmail, extraData}) {
+export default function PostItem({validateEmail}) {
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
   const [date, setDate] = useState(new Date());

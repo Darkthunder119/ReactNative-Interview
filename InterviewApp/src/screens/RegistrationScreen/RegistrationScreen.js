@@ -5,7 +5,7 @@ import styles from "./styles";
 import { firebase } from "../../firebase/config";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-export default function RegistrationScreen({ navigation, validateEmail }) {
+export default function RegistrationScreen({ navigation, validateEmail, emailVerificationFirebase }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +24,7 @@ export default function RegistrationScreen({ navigation, validateEmail }) {
       auth
         .createUserWithEmailAndPassword(email, password)
         .then((data) => {
-          alert("account created successfully");
+          emailVerificationFirebase();
         })
         .catch((error) => alert(error));
     } else {

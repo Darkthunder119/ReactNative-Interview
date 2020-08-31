@@ -8,7 +8,7 @@ import PostItem from "../../components/PostItem/PostItem";
 const Tab = createBottomTabNavigator();
 const API_URL = "https://dummyapi.io/data/api/post?limit=10";
 
-export default function HomeScreen({ extraData, signOut, validateEmail }) {
+export default function HomeScreen({ extraData, signOut, validateEmail,emailVerificationFirebase }) {
   const [apiData, setApiData] = useState(null);
   useEffect(() => {
     fetch(`${API_URL}`, {
@@ -45,7 +45,7 @@ export default function HomeScreen({ extraData, signOut, validateEmail }) {
     >
       <Tab.Screen name="Profile">
         {(props) => (
-          <Profile {...props} extraData={extraData} signOut={signOut}/>
+          <Profile {...props} extraData={extraData} signOut={signOut} emailVerificationFirebase={emailVerificationFirebase}/>
         )}
       </Tab.Screen>
       <Tab.Screen name="Explore">

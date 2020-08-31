@@ -27,6 +27,15 @@ export default function App() {
     setUser(null);
   };
 
+  const emailVerificationFirebase = () => {
+    user
+      .sendEmailVerification()
+      .then((res) => {
+        alert("Check your email!");
+      })
+      .catch((err) => alert(err));
+  };
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged((cred) => {
       if (cred) {
@@ -60,6 +69,7 @@ export default function App() {
                 extraData={user}
                 signOut={signOut}
                 validateEmail={validateEmail}
+                emailVerificationFirebase={emailVerificationFirebase}
               />
             )}
           </Stack.Screen>
@@ -72,7 +82,7 @@ export default function App() {
             </Stack.Screen>
             <Stack.Screen name="Registration">
               {(props) => (
-                <RegistrationScreen {...props} validateEmail={validateEmail} />
+                <RegistrationScreen {...props} validateEmail={validateEmail} emailVerificationFirebase={emailVerificationFirebase}/>
               )}
             </Stack.Screen>
           </>

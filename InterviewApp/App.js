@@ -26,6 +26,7 @@ export default function App() {
     setIsSignedOut(true);
     setUser(null);
   };
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged((cred) => {
       if (cred) {
@@ -35,12 +36,16 @@ export default function App() {
     });
   }, []);
 
+  const validateEmail = (email) => {
+    const expression = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
+    return expression.test(email.trim().toLowerCase());
+  };
   if (loading) {
     return (
       <ActivityIndicator
         size="large"
         color="#788eec"
-        style={{ alignItems: "center", justifyContent: "center" }}
+        style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
       />
     );
   }
@@ -50,13 +55,26 @@ export default function App() {
         {user ? (
           <Stack.Screen name="Home">
             {(props) => (
-              <HomeScreen {...props} extraData={user} signOut={signOut} />
+              <HomeScreen
+                {...props}
+                extraData={user}
+                signOut={signOut}
+                validateEmail={validateEmail}
+              />
             )}
           </Stack.Screen>
         ) : (
           <>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Registration" component={RegistrationScreen} />
+            <Stack.Screen name="Login">
+              {(props) => (
+                <LoginScreen {...props} validateEmail={validateEmail} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="Registration">
+              {(props) => (
+                <RegistrationScreen {...props} validateEmail={validateEmail} />
+              )}
+            </Stack.Screen>
           </>
         )}
       </Stack.Navigator>

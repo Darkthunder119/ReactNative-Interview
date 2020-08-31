@@ -6,7 +6,7 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
     button: {
-        backgroundColor: '#41b619',
+        backgroundColor: '#788eec',
         marginLeft: 30,
         marginRight: 30,
         marginTop: 100,
@@ -27,7 +27,7 @@ export default StyleSheet.create({
         flexDirection:"row"
     },
     tags:{
-        backgroundColor: "#41b619",
+        backgroundColor: "#788eec",
         color: "white",
         borderRadius: 4,
         margin: 5,

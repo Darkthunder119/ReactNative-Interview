@@ -1,17 +1,47 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
-import { Text, View } from "react-native";
+import { Text, View, YellowBox } from "react-native";
 import styles from "../../screens/LoginScreen/styles";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import {firebase} from "../../firebase/config"
+import { set } from "react-native-reanimated";
 
-export default function PostItem() {
-    const [title, setTitle] = useState("");
-    const [address, setAddress] = useState("");
-    const [date, setDate] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
-    const [description, setDescription] = useState("");
+export default function PostItem({validateEmail, extraData}) {
+  const [title, setTitle] = useState("");
+  const [address, setAddress] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [description, setDescription] = useState("");
+  const [show, setShow] = useState(false);
 
+  const posts = firebase.database().ref().child('posts');
+  const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
+  YellowBox.ignoreWarnings(["Setting a timer"]);
+  const submitData = () =>{
+    if (email && validateEmail(email) && phone.length === 10 && address && date && title && description){
+        posts.push().set({
+            postTitle: `${title.trim()}`,
+            address: `${address.trim()}`,
+            date: `${date}`,
+            phoneNumber: `${phone.trim()}`,
+            emailAddress: `${email}`,
+            description: `${description.trim()}`
+        });
+        setTitle("");
+        setAddress("");
+        setPhone("");
+        setEmail("");
+        setDescription("");
+    } else {
+        alert("Please check all the fields carefully! All fields are required.");
+    }
+  }
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView
@@ -47,15 +77,18 @@ export default function PostItem() {
           value={phone}
           underlineColorAndroid="transparent"
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Date"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setDate(text)}
-          value={date}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
+        <TouchableOpacity style={{...styles.button, marginTop:5}} onPress={()=>setShow(true)}>
+          <Text style={styles.buttonTitle}>Pick a Date</Text>
+        </TouchableOpacity>
+        {show && (
+          <DateTimePicker
+            value={date}
+            mode="date"
+            display="default"
+            onChange={onChangeDate}
+            dateFormat="dayofweek month day year"
+          />
+        )}
         <TextInput
           style={styles.input}
           placeholder="E-mail"
@@ -78,7 +111,7 @@ export default function PostItem() {
           multiline
           numberOfLines={3}
         />
-        <TouchableOpacity style={styles.button} >
+        <TouchableOpacity style={styles.button} onPress={submitData}>
           <Text style={styles.buttonTitle}>Post</Text>
         </TouchableOpacity>
       </KeyboardAwareScrollView>

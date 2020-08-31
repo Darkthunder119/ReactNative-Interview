@@ -1,18 +1,11 @@
 import React, { useState } from "react";
-import {
-  Image,
-  Text,
-  TextInput,
-  View,
-  Platform,
-  Alert,
-} from "react-native";
+import { Image, Text, TextInput, View, Platform, Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styles from "./styles";
 import { firebase } from "../../firebase/config";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-export default function RegistrationScreen({ navigation }) {
+export default function RegistrationScreen({ navigation, validateEmail }) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,12 +20,16 @@ export default function RegistrationScreen({ navigation }) {
     if (password !== confirmPassword) {
       alert("Please check the passwords are typed correctly in both fields!");
     }
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((data) => {
-        alert('account created successfully');
-      })
-      .catch((error) => alert(error));
+    if (email && validateEmail(email)) {
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((data) => {
+          alert("account created successfully");
+        })
+        .catch((error) => alert(error));
+    } else {
+      alert("Please enter a valid Email!");
+    }
   };
   const onGoogleHandler = () => {
     if (Platform.OS === "web") {
@@ -41,8 +38,7 @@ export default function RegistrationScreen({ navigation }) {
         .then((data) => console.log(data))
         .catch((err) => console.log(err));
     }
-    if(Platform.OS === "android"){
-
+    if (Platform.OS === "android") {
     }
   };
   return (
@@ -97,10 +93,14 @@ export default function RegistrationScreen({ navigation }) {
           style={styles.button}
           onPress={() => onRegisterPress()}
         >
-          <Text style={styles.buttonTitle} textBreakStrategy="simple">Create account </Text>
+          <Text style={styles.buttonTitle} textBreakStrategy="simple">
+            Create account{" "}
+          </Text>
         </TouchableHighlight>
         <TouchableHighlight style={styles.buttonTwo} onPress={onGoogleHandler}>
-          <Text style={styles.buttonTitle} textBreakStrategy="simple">Sign up with Google </Text>
+          <Text style={styles.buttonTitle} textBreakStrategy="simple">
+            Sign up with Google{" "}
+          </Text>
         </TouchableHighlight>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>

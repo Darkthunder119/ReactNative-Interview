@@ -1,30 +1,59 @@
-import React from "react";
-import { View, Text, Button } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, Button, ActivityIndicator } from "react-native";
 import styles from "../../screens/HomeScreen/styles";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { firebase } from "../../firebase/config";
 
 export default function Profile({ extraData, signOut }) {
+  const user = firebase.auth().currentUser;
+  const [userEmail, setUserEmail] = useState(extraData.emailVerified);
+  const [loading, setLoading] = useState(true);
+  const emailVerificationFirebase = () => {
+    user
+      .sendEmailVerification()
+      .then((res) => {
+        alert("Check your email!");
+      })
+      .catch((err) => alert(err));
+  };
+  useEffect(() => {
+    if (user.emailVerified) {
+      setLoading(false);
+      setUserEmail(true)
+    } else setLoading(false);
+  }, []);
+
+  if (loading) {
+    return (
+      <ActivityIndicator
+        size="large"
+        color="#788eec"
+        style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+      />
+    );
+  }
+
   return (
     <View style={styles.container}>
+      <Text style={styles.profileText}>Welcome {user.email.split("@")[0]}</Text>
       <Text style={styles.profileText}>
-        Welcome {extraData.email.split("@")[0]}
+        Email : {user.email} {userEmail ? "" : "*"}
       </Text>
-      <Text style={styles.profileText}>
-        Email : {extraData.email} {extraData.emailVerified ? "" : "*"}
-      </Text>
-      {!extraData.emailVerified ? (
+      {!userEmail ? (
         <>
           <Text>* please verify Email</Text>
-          <TouchableOpacity style={styles.button}>
-            <Text style={{color:"#FFF"}}>Verify Email</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={emailVerificationFirebase}
+          >
+            <Text style={{ color: "#FFF" }}>Verify Email</Text>
           </TouchableOpacity>
         </>
       ) : (
         <Text>Email is Verified</Text>
       )}
-
       <TouchableOpacity style={styles.button} onPress={signOut}>
-        <Text style={{color:"#FFF"}}>Sign Out</Text>
+        <Text style={{ color: "#FFF" }}>Sign Out</Text>
       </TouchableOpacity>
     </View>
   );

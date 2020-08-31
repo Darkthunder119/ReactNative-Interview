@@ -46,7 +46,9 @@ export default StyleSheet.create({
     buttonTitle: {
         color: 'white',
         fontSize: 16,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        width: "100%",
+        textAlign:"center"
     },
     footerView: {
         flex: 1,
@@ -55,7 +57,9 @@ export default StyleSheet.create({
     },
     footerText: {
         fontSize: 16,
-        color: '#2e2e2d'
+        color: '#2e2e2d',
+        width: "100%",
+        textAlign: "center"
     },
     footerLink: {
         color: "#788eec",

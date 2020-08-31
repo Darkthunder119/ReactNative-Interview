@@ -97,10 +97,10 @@ export default function RegistrationScreen({ navigation }) {
           style={styles.button}
           onPress={() => onRegisterPress()}
         >
-          <Text style={styles.buttonTitle}>Create account</Text>
+          <Text style={styles.buttonTitle} textBreakStrategy="simple">Create account </Text>
         </TouchableHighlight>
         <TouchableHighlight style={styles.buttonTwo} onPress={onGoogleHandler}>
-          <Text style={styles.buttonTitle}>Sign up with Google</Text>
+          <Text style={styles.buttonTitle} textBreakStrategy="simple">Sign up with Google </Text>
         </TouchableHighlight>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>

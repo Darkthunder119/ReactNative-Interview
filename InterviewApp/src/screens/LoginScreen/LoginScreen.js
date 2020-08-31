@@ -49,13 +49,13 @@ export default function LoginScreen({ navigation }) {
           autoCapitalize="none"
         />
         <TouchableOpacity style={styles.button} onPress={() => onLoginPress()}>
-          <Text style={styles.buttonTitle}>Log In</Text>
+          <Text style={styles.buttonTitle} textBreakStrategy="balanced">Log In</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonTwo}
           onPress={() => onLoginPress()}
         >
-          <Text style={styles.buttonTitle}>Log In with Google</Text>
+          <Text style={styles.buttonTitle} textBreakStrategy="simple">Log In with Google</Text>
         </TouchableOpacity>
         <View style={styles.footerView}>
           <Text style={styles.footerText}>

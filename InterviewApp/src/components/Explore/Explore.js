@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, SafeAreaView, ActivityIndicator } from "react-native";
+import { ActivityIndicator } from "react-native";
 import styles from "../../screens/HomeScreen/styles";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { FlatList } from "react-native-gesture-handler";
 import SingleItem from "../SingleItem/SingleItem";
 
 export default function Explore(props) {
